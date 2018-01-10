@@ -160,6 +160,7 @@ public class ExoMediaPlayer extends Player.DefaultEventListener {
 
         LoadControl loadControl = ExoMedia.Data.loadControl != null ? ExoMedia.Data.loadControl : new DefaultLoadControl();
         player = ExoPlayerFactory.newInstance(renderers.toArray(new Renderer[renderers.size()]), trackSelector, loadControl);
+        player.setRepeatMode(Player.REPEAT_MODE_ALL);
         player.addListener(this);
     }
 
