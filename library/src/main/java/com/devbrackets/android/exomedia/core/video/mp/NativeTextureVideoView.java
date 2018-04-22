@@ -34,6 +34,7 @@ import com.devbrackets.android.exomedia.ExoMedia;
 import com.devbrackets.android.exomedia.core.ListenerMux;
 import com.devbrackets.android.exomedia.core.api.VideoViewApi;
 import com.devbrackets.android.exomedia.core.video.ResizingTextureView;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.drm.MediaDrmCallback;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
@@ -148,8 +149,13 @@ public class NativeTextureVideoView extends ResizingTextureView implements Nativ
     }
 
     @Override
+    public float getVolume() {
+        return delegate.getVolume();
+    }
+
+    @Override
     public boolean setVolume(@FloatRange(from = 0.0, to = 1.0) float volume) {
-        return false;
+        return delegate.setVolume(volume);
     }
 
     @Override
@@ -204,10 +210,15 @@ public class NativeTextureVideoView extends ResizingTextureView implements Nativ
     }
 
     @Override
-    public void onVideoSizeChanged(int width, int height) {
-        if (updateVideoSize(width, height)) {
+    public void onVideoSizeChanged(int width, int height, float pixelWidthHeightRatio) {
+        if (updateVideoSize((int) (width * pixelWidthHeightRatio), height)) {
             requestLayout();
         }
+    }
+
+    @Override
+    public void setRepeatMode(@Player.RepeatMode int repeatMode) {
+        // Purposefully left blank
     }
 
     /**
